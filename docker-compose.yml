@@ -1,0 +1,12 @@
+services:
+  react-app: # もしここが「app」なら「app」のままでOK
+    build: .
+    container_name: react-developer-env
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      # ⬇️ ココにあった「- /app/node_modules」を削除する
+    environment:
+      - WATCHPACK_POLLING=true
+    tty: true
