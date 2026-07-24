@@ -4,11 +4,11 @@ import { useState } from 'react';
 import TodoItem from './todoItem';
 import { useCounterStore } from './stores/counterStore';
 import Test from './test';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 interface Todo {
   id: number;
   text: string;
-}
+} 
 
 // 💡 Homeに関係ない一言メッセージ（NoTask）なら、Homeの「外」に定義すれば安全です！
 const NoTask = () => <p>タスクはありません。平和です！</p>;
