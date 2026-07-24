@@ -13,7 +13,7 @@ export function createLocalApiMiddleware() {
     { id: 1, title: 'サンプルタスクcsdkdvsv.ccscscsc', completed: false },
     { id: 2, title: '次の画面遷移確認', completed: true },
     { id: 3, title: 'React Query 連携テスト', completed: false },
-  ];
+  ]; 
   return {
     name: 'vite-local-api',
     configureServer(server) {
