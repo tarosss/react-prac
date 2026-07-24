@@ -1,6 +1,7 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCounterStore } from './stores/counterStore';
 import { useState } from 'react';
+import React from 'react';
 
 // API レスポンスの型定義（TypeScript用）
 interface Todo {
@@ -29,7 +30,6 @@ export default function Test() {
       return res.json();
     },
     staleTime: 0, // 💡 キャッシュを即座に古くなったとみなす設定
-    enabled: false, // 💡 これを入れると、画面を開いた直後の自動取得をストップします
     select: (data) => {
       // 💡 取得したデータを加工して返すこともできます
       return {
@@ -39,6 +39,7 @@ export default function Test() {
     }
   });
 
+  const queryClient = useQueryClient();
   const [mutations, setMutations] = useState<ApiResponse | null>(null);
   const { mutate, isPending, } = useMutation<ApiResponse, Error, { title: string }>({
     mutationFn: async (newTodo: { title: string }) => {
@@ -51,8 +52,7 @@ export default function Test() {
       return res.json();
     },
     onSuccess: (data) => {
-      console.log('Mutation 成功:', data);
-      setMutations(data);
+      queryClient.invalidateQueries({ queryKey: ['todos'] })
     },
     onError: (error) => {
       console.error('Mutation 失敗:', error);
