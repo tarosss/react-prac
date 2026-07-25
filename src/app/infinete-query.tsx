@@ -1,15 +1,14 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import React from 'react';
-interface Todo {
-  id: number;
-  title: string;
-}
-
-interface ApiResponse {
-  todos: Todo[];
-  nextPage: number | null; // 次のページ番号（もう無ければ null）
-}
-
+import { z } from 'zod';
+const Todo = z.object({
+  id: z.number(),
+  title: z.string(),
+})
+const ApiResponse = z.object({
+  todos: z.array(Todo),
+  nextPage: z.number().nullable(),
+})
 export default function InfiniteTodoList() {
   const {
     data,                // 取得した全ページのデータが入るオブジェクト
@@ -18,7 +17,7 @@ export default function InfiniteTodoList() {
     isFetchingNextPage,  // 💡 追加ロード中かどうか（Boolean）
     isLoading,
     isError,
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<typeof ApiResponse, Error>({
     queryKey: ['infinite-todos'],
 
     // 💡 1. queryFn に pageParam が渡されてくる
