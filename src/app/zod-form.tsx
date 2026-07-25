@@ -11,15 +11,14 @@ const SignUpSchema = z.object({
 
 // スキーマから型を自動抽出
 type SignUpInput = z.infer<typeof SignUpSchema>;
-
-export function SignUpForm() {
+export default function SignUpForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpInput>({
     // 💡 2. Zodのルールを React Hook Form に渡す
-    resolver: zodResolver(SignUpSchema), 
+    resolver: zodResolver(SignUpSchema),
   });
 
   const onSubmit = (data: SignUpInput) => {
