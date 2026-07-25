@@ -21,6 +21,7 @@ export default function Test() {
   const localCount = useCounterStore((state) => state.count + 1);
 
   const [text, setText] = useState<string>('');
+  const reverseText = [...text].reverse().join('');
   // 💡 useQuery の設定
   const { data, isLoading, isError, refetch, isFetching } = useQuery<ApiResponse>({
     queryKey: ['todos', text],
@@ -74,6 +75,12 @@ export default function Test() {
 
       <h2>TanStack Query Fetch テスト</h2>
       <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+
+      {reverseText && (
+        <p>
+          reverse : {reverseText}
+        </p>
+      )}
       {/* 💡 ボタンを押すと refetch() が呼ばれて API にリクエストが飛びます */}
       <button 
         onClick={() => refetch()} 
